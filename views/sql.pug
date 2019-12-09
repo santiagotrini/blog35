@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h2.mt-3 Practica de SQL
+  form.mb-3(action='/sql' method='post')
+    div.form-group
+      label Query
+      textarea.form-control(
+        rows='3' 
+        name='query' 
+        style='font-family: monospace')= query
+    input(type='submit' value='Consulta')
+  if (error)
+    code.mt-3= error
+  if (results && results.length == 0)
+    code Query OK, empty set
+  if (results && results.insertId)
+    code Query OK, #{results.affectedRows} rows inserted.  
+  if (results && !results.insertId && results.changedRows == 0 && !results.message)
+    code Query OK, #{results.affectedRows} rows deleted.      
+  if (results && !results.insertId && results.changedRows >= 0 && results.message)
+    code Query OK, #{results.changedRows} rows updated.   
+  if (results && results.length > 0)
+    table.mt-2.table
+      thead
+        each col in fields
+          th= col.name
+      tbody
+        each row in results
+          tr
+            each col in fields
+              td= row[col.name]      

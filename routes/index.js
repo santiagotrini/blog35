@@ -4,9 +4,23 @@ const router = express.Router();
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 
+// mariadb connection
+const connection = require('../connection');
+
 router.get('/', (req, res) => {
   Post.find().exec((err, posts) => {
     res.render('index', { posts: posts });
+  });
+});
+
+router.get('/sql', (req, res) => {
+  res.render('sql', { query: null });
+});
+
+router.post('/sql', (req, res) => {
+  const query = req.body.query
+  connection.query(query, (err, rs, md) => {
+    res.render('sql', { error: err, results: rs, fields: md, query: query });
   });
 });
 
