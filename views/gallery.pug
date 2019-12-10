@@ -3,16 +3,23 @@ extends layout
 block content
   h1.mt-3.text-center Galeria
   hr
-  each photo in photos 
-    h3= photo.title
-    img(src=photo.image width='300')
+  div.row      
+    each photo in photos  
+      div.col-sm-4
+        div.card.mx-3.my-3
+          img.card-img-top(src=photo.image alt=photo.title) 
+          div.card-body
+            h5.card-title= photo.title
   hr
+  h3.my-2 Subir foto  
   form.mt-3(action='/gallery' enctype='multipart/form-data' method='post')
     div.form-group
       label Titulo
       input.form-control(name='title')
     div.form-group
-      label Elija un archivo
+      label Elegir archivo
       input.form-control-file(type='file' name='image')
-    input(type='submit' value='Subir foto')    
-        
+      small.form-text.text-muted Elija un archivo (jpg o png, máximo 2 MB)  
+    input.btn.btn-primary(type='submit' value='Subir foto') 
+       
+  script(type='text/javascript' src='customFile.js')      

@@ -3,7 +3,7 @@ extends layout
 block content
   h2.mt-3= post.title 
   h4= post.subtitle 
-  h5.text-muted por #{post.author} el #{post.date.toLocaleDateString()}
+  h5.text-muted por #{post.author} el #{post.date.toLocaleDateString('es-AR')}
   p= post.content
   hr
   h3 Deja un comentario

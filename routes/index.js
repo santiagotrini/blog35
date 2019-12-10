@@ -5,6 +5,7 @@ const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const Photo = require('../models/Photo');
 const multer = require('multer');
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, './uploads');
@@ -14,6 +15,10 @@ const storage = multer.diskStorage({
   }
 });
 
+const limits = {
+  fileSize: 2 * 1024 * 1024
+};
+
 const fileFilter = (req, file, cb) => {
   if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png')
     cb(null, true);
@@ -21,7 +26,7 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
 };
 
-const upload = multer({ storage: storage, fileFilter: fileFilter });
+const upload = multer({ storage: storage, fileFilter: fileFilter, limits: limits });
 
 // mariadb connection
 const connection = require('../connection');
