@@ -3,6 +3,25 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
+const Photo = require('../models/Photo');
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads');
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString() + file.originalname)
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png')
+    cb(null, true);
+  else
+    cb(null, false);
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // mariadb connection
 const connection = require('../connection');
@@ -10,6 +29,24 @@ const connection = require('../connection');
 router.get('/', (req, res) => {
   Post.find().exec((err, posts) => {
     res.render('index', { posts: posts });
+  });
+});
+
+router.get('/gallery', (req, res) => {
+  Photo.find().exec((err, photos) => {
+    res.render('gallery', { photos: photos });
+  });
+});
+
+router.post('/gallery', upload.single('image'), (req, res) => {
+  // console.log(req.file);
+  // console.log('\n', req.body.title);
+  const photo = new Photo({
+    title: req.body.title,
+    image: req.file.path
+  });
+  photo.save(err => {
+    res.redirect('/gallery');
   });
 });
 
