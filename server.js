@@ -1,6 +1,7 @@
 const express  = require('express');
 const mongoose = require('mongoose');
 const router = require('./routes/index');
+const photoRouter = require('./routes/api/photo');
 
 // config vars
 const db   = process.env.MONGODB_URI || 'mongodb://localhost/blog35';
@@ -30,6 +31,7 @@ app.use(express.static('public'));
 
 // set routes
 app.use('/', router);
+app.use('/api', photoRouter);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

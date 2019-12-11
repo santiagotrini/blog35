@@ -8,7 +8,9 @@ block content
         div.card.mx-3.my-3
           img.card-img-top(src=photo.image alt=photo.title) 
           div.card-body
-            h5.card-title= photo.title
+            h5.card-title= photo.title 
+              a.float-right(id=photo._id onclick='deletePhoto(this)' href='' style='font-size: 24px; color: black;')
+                i(class='fa fa-trash')      
   hr
   h3.my-2 Subir foto  
   form.mt-3(action='/gallery' enctype='multipart/form-data' method='post')
@@ -20,3 +22,4 @@ block content
       input.form-control-file(type='file' name='image')
       small.form-text.text-muted Elija un archivo (jpg o png, máximo 2 MB)  
     input.btn.btn-primary(type='submit' value='Subir foto')  
+  script(src='deletePhoto.js' type='text/javascript')  
