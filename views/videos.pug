@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h2.mt-3.text-center Galeria de videos
+  hr
+  each video in videos 
+    div.text-center
+      h4= video.title
+      iframe(width="560" height="315" src=video.url frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+      hr  
+  h2 Agregar video
+  form(action='/videos' method='post')
+    div.form-group
+      label Titulo
+      input.form-control(name='title')
+    div.form-group
+      label URL de Youtube
+      input.form-control(name='url')
+      small.form-text.text-muted Por ejemplo, https://www.youtube.com/embed/J7UwSVsiwzI  
+    input(type='submit' value='Guardar')          
+    
+  
